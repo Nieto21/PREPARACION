@@ -1,0 +1,158 @@
+using System;
+
+namespace ArregloCalificacionesApp
+{
+    public class ArregloCalificaciones
+    {
+        private int[] calificacion;
+
+        public ArregloCalificaciones()
+        {
+            calificacion = new int[] { 10, 19, 13, 18, 11, 17, 19, 8, 20, 5 };
+        }
+
+        public int tamanio()
+        {
+            return calificacion.Length;
+        }
+
+        public int obtenerCalificacion(int posicion)
+        {
+            return calificacion[posicion];
+        }
+
+        public double calificacionPromedio()
+        {
+            double suma = 0;
+            foreach (int c in calificacion)
+            {
+                suma += c;
+            }
+            return suma / calificacion.Length;
+        }
+
+        public int calificacionMayor()
+        {
+            int mayor = calificacion[0];
+            for (int i = 1; i < calificacion.Length; i++)
+            {
+                if (calificacion[i] > mayor)
+                {
+                    mayor = calificacion[i];
+                }
+            }
+            return mayor;
+        }
+
+        public int calificacionMenor()
+        {
+            int menor = calificacion[0];
+            for (int i = 1; i < calificacion.Length; i++)
+            {
+                if (calificacion[i] < menor)
+                {
+                    menor = calificacion[i];
+                }
+            }
+            return menor;
+        }
+
+        public int nroCalificacionesAprobatorias()
+        {
+            int count = 0;
+            foreach (int c in calificacion)
+            {
+                if (c >= 13)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public int nroCalificacionesDesaprobatorias()
+        {
+            int count = 0;
+            foreach (int c in calificacion)
+            {
+                if (c < 13)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public int posPrimeraCalificacionAprobatoria()
+        {
+            for (int i = 0; i < calificacion.Length; i++)
+            {
+                if (calificacion[i] >= 13)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public int posPenultimaCalificacionDesaprobatoria()
+        {
+            int contador = 0;
+            int penultimaPos = -1;
+           
+            for (int i = calificacion.Length - 1; i >= 0; i--)
+            {
+                if (calificacion[i] < 13)
+                {
+                    contador++;
+                    if (contador == 2)
+                    {
+                        return i;
+                    }
+                    penultimaPos = i;
+                }
+            }
+            return penultimaPos;
+        }
+
+        public void generarCalificaciones()
+        {
+            Random rnd = new Random();
+            for (int i = 0; i < calificacion.Length; i++)
+            {
+                calificacion[i] = rnd.Next(0, 21);
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ArregloCalificaciones calificaciones = new ArregloCalificaciones();
+
+            // Mostrar información básica
+            Console.WriteLine("Cantidad de calificaciones: " + calificaciones.tamanio());
+            Console.WriteLine("Calificación en posición 3: " + calificaciones.obtenerCalificacion(3));
+            Console.WriteLine("Promedio de calificaciones: " + calificaciones.calificacionPromedio().ToString("F2"));
+            Console.WriteLine("Calificación mayor: " + calificaciones.calificacionMayor());
+            Console.WriteLine("Calificación menor: " + calificaciones.calificacionMenor());
+
+            // Resultados de consultas
+            Console.WriteLine("Número de calificaciones aprobatorias: " + calificaciones.nroCalificacionesAprobatorias());
+            Console.WriteLine("Número de calificaciones desaprobatorias: " + calificaciones.nroCalificacionesDesaprobatorias());
+            Console.WriteLine("Posición primera calificación aprobatoria: " + calificaciones.posPrimeraCalificacionAprobatoria());
+            Console.WriteLine("Posición penúltima calificación desaprobatoria: " + calificaciones.posPenultimaCalificacionDesaprobatoria());
+
+            // Generar nuevas calificaciones
+            calificaciones.generarCalificaciones();
+            Console.WriteLine("\nDespués de generar nuevas calificaciones aleatorias:");
+            Console.WriteLine("Nuevo promedio: " + calificaciones.calificacionPromedio().ToString("F2"));
+            Console.WriteLine("Nueva calificación mayor: " + calificaciones.calificacionMayor());
+            Console.WriteLine("Nueva calificación menor: " + calificaciones.calificacionMenor());
+
+            Console.WriteLine("\nPresione cualquier tecla para salir...");
+            Console.ReadKey();
+        }
+    }
+}
